@@ -1,0 +1,10 @@
+curl -X POST http://localhost:3003/chat \
+-H "Content-Type: application/json" \
+-d '{
+    "messages": [
+        {
+            "role": "user",
+            "content": "me pudes clasificar esta producto. Tapa de radiador. con el codigo arancelario venezolano mas actualizado"
+        }
+    ]
+}'

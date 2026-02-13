@@ -1,7 +1,9 @@
 import { Groq } from 'groq-sdk';
 import type { AIService, ChatMessage } from '../types';
 
-const groq = new Groq();
+const groq = new Groq({
+  apiKey: process.env.API_KEY_GROQ,
+});
 
 export const groqService: AIService = {
   name: 'Groq',
@@ -15,7 +17,7 @@ export const groqService: AIService = {
       stream: true,
       stop: null
     });
-    
+
     return (async function* () {
       for await (const chunk of chatCompletion) {
         yield chunk.choices[0]?.delta?.content || ''
