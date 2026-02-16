@@ -1,3 +1,10 @@
 {
-    "bunVersion": "1.x"
+  "bunVersion": "1.x",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.ts"
+    }
+  ]
 }
