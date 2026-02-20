@@ -4,7 +4,7 @@ import type { AIService, ChatMessage } from './types';
 
 const services: AIService[] = [
   groqService,
-  // cerebrasService,
+  cerebrasService,
   // Google Gemini
   // OpenRouter
   // otro servicio incluso local
