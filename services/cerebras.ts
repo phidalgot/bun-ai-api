@@ -1,5 +1,6 @@
 import Cerebras from '@cerebras/cerebras_cloud_sdk';
 import type { AIService, ChatMessage } from '../types';
+import { systemPrompt } from './groq';
 
 const cerebras = new Cerebras(
   {
@@ -11,7 +12,7 @@ export const cerebrasService: AIService = {
   name: 'Cerebras',
   async chat(messages: ChatMessage[]) {
     const stream = await cerebras.chat.completions.create({
-      messages: messages as any,
+      messages: [...messages, { role: 'system', content: systemPrompt }] as any,
       model: 'gpt-oss-120b',
       stream: true,
       max_completion_tokens: 40960,
