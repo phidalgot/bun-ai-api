@@ -59,7 +59,7 @@ export const groqService: AIService = {
   async chat(messages: ChatMessage[]) {
     const chatCompletion = await groq.chat.completions.create({
       messages: [...messages, { role: 'system', content: systemPrompt }],
-      model: "moonshotai/kimi-k2-instruct",
+      model: "openai/gpt-oss-20b",
       temperature: 0.6,
       max_completion_tokens: 4096,
       top_p: 1,
