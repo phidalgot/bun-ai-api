@@ -1,9 +1,11 @@
 import { groqService } from './services/groq';
 import { cerebrasService } from './services/cerebras';
+import { opencodeService } from './services/opencode';
 import type { AIService, ChatMessage } from './types';
 
 const services: AIService[] = [
   groqService,
+  opencodeService,
   // cerebrasService,
   // Google Gemini
   // OpenRouter
@@ -19,6 +21,7 @@ function getNextService() {
 
 const server = Bun.serve({
   port: process.env.PORT ?? 3003,
+  idleTimeout: 0, // sin límite — los modelos de razonamiento tardan en responder
   async fetch(req) {
     const { pathname } = new URL(req.url)
 
@@ -42,7 +45,7 @@ const server = Bun.serve({
 
       return new Response(stream, {
         headers: {
-          'Content-Type': 'text/event-stream',
+          'Content-Type': 'text/plain; charset=utf-8',
           'Cache-Control': 'no-cache',
           'Connection': 'keep-alive',
           'Access-Control-Allow-Origin': '*',

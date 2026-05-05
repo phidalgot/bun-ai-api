@@ -1,5 +1,6 @@
 import { Groq } from 'groq-sdk';
 import type { AIService, ChatMessage } from '../types';
+import process from 'node:process';
 
 const groq = new Groq({
   apiKey: process.env.API_KEY_GROQ,
@@ -64,12 +65,15 @@ export const groqService: AIService = {
       max_completion_tokens: 4096,
       top_p: 1,
       stream: true,
-      stop: null
+      stop: null,
     });
 
     return (async function* () {
       for await (const chunk of chatCompletion) {
-        yield chunk.choices[0]?.delta?.content || ''
+        if (chunk.choices[0]?.delta?.content) {
+          console.log('chunk', chunk.choices[0]?.delta?.content)
+          yield chunk.choices[0]?.delta?.content
+        }
       }
     })()
   }
