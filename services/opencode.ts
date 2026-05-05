@@ -27,7 +27,6 @@ export const opencodeService: AIService = {
         top_p: 1,
         max_tokens: 4096,
         stream: true,
-        stop: ["\n\n"],
       }),
     });
 
