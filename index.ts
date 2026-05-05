@@ -4,7 +4,7 @@ import { opencodeService } from './services/opencode';
 import type { AIService, ChatMessage } from './types';
 
 const services: AIService[] = [
-  groqService,
+ // groqService,
   opencodeService,
   // cerebrasService,
   // Google Gemini
