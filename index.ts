@@ -5,7 +5,7 @@ import { formatArancelForPrompt, searchArancel } from './services/arancel';
 import type { AIService, ChatMessage } from './types';
 
 const services: AIService[] = [
-  groqService,
+  // groqService,
   opencodeService,
   // cerebrasService,
   // Google Gemini
