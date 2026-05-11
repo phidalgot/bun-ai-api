@@ -10,9 +10,12 @@ const cerebras = new Cerebras(
 
 export const cerebrasService: AIService = {
   name: 'Cerebras',
-  async chat(messages: ChatMessage[]) {
+  async chat(messages: ChatMessage[], arancelContext?: string) {
+    const systemContent = arancelContext
+      ? `${systemPrompt}\n\n${arancelContext}`
+      : systemPrompt;
     const stream = await cerebras.chat.completions.create({
-      messages: [...messages, { role: 'system', content: systemPrompt }] as any,
+      messages: [...messages, { role: 'system', content: systemContent }] as any,
       model: 'gpt-oss-120b',
       stream: true,
       max_completion_tokens: 40960,

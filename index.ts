@@ -1,10 +1,11 @@
 import { groqService } from './services/groq';
 import { cerebrasService } from './services/cerebras';
 import { opencodeService } from './services/opencode';
+import { formatArancelForPrompt, searchArancel } from './services/arancel';
 import type { AIService, ChatMessage } from './types';
 
 const services: AIService[] = [
- // groqService,
+  groqService,
   opencodeService,
   // cerebrasService,
   // Google Gemini
@@ -40,8 +41,16 @@ const server = Bun.serve({
       console.log('messages', messages)
       const service = getNextService();
 
+      const userMessage = messages.filter(m => m.role === 'user').pop();
+      const userQuery = userMessage?.content ?? '';
+      const relevantArancel = searchArancel(userQuery, 80);
+      const arancelContext = formatArancelForPrompt(relevantArancel);
+      const arancelSection = `\n\n=== BASE DE DATOS ARANCEL VENEZUELA (Decreto 4944 + 8 Reformas) ===\nEn base a la siguiente información del arancel oficial de Venezuela, realiza la clasificación:\n\n${arancelContext}\n=== FIN BASE DE DATOS ===\n`;
+
+      console.log('arancelContext', arancelContext)
+
       console.log(`Using ${service?.name} service`);
-      const stream = await service?.chat(messages)
+      const stream = await service?.chat(messages, arancelSection)
 
       return new Response(stream, {
         headers: {

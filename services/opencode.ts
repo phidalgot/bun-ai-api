@@ -12,7 +12,10 @@ if (!API_KEY_OPENCODE_GO) {
 
 export const opencodeService: AIService = {
   name: 'OpenCode Go',
-  async chat(messages: ChatMessage[]) {
+  async chat(messages: ChatMessage[], arancelContext?: string) {
+    const systemContent = arancelContext
+      ? `${systemPrompt}\n\n${arancelContext}`
+      : systemPrompt;
     const response = await fetch(OPENCODE_GO_URL, {
       method: 'POST',
       headers: {
@@ -22,7 +25,7 @@ export const opencodeService: AIService = {
       },
       body: JSON.stringify({
         model: 'qwen3.6-plus',
-        messages: [...messages, { role: 'system', content: systemPrompt }],
+        messages: [...messages, { role: 'system', content: systemContent }],
         temperature: 0.6,
         top_p: 1,
         max_tokens: 4096,

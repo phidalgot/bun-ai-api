@@ -12,9 +12,12 @@ const groq = new Groq({
 
 export const groqService: AIService = {
   name: 'Groq',
-  async chat(messages: ChatMessage[]) {
+  async chat(messages: ChatMessage[], arancelContext?: string) {
+    const systemContent = arancelContext
+      ? `${systemPrompt}\n\n${arancelContext}`
+      : systemPrompt;
     const chatCompletion = await groq.chat.completions.create({
-      messages: [...messages, { role: 'system', content: systemPrompt }],
+      messages: [...messages, { role: 'system', content: systemContent }],
       model: "openai/gpt-oss-20b",
       temperature: 0.6,
       max_completion_tokens: 4096,
@@ -26,7 +29,7 @@ export const groqService: AIService = {
     return (async function* () {
       for await (const chunk of chatCompletion) {
         if (chunk.choices[0]?.delta?.content) {
-          console.log('chunk', chunk.choices[0]?.delta?.content)
+          // console.log('chunk', chunk.choices[0]?.delta?.content)
           yield chunk.choices[0]?.delta?.content
         }
       }
