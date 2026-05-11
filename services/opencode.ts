@@ -1,6 +1,6 @@
 import console from 'node:console';
 import type { AIService, ChatMessage } from '../types';
-import { systemPrompt } from './groq';
+import { systemPrompt } from './prommpt';
 import process from 'node:process';
 
 const OPENCODE_GO_URL = process.env.OPENCODE_GO_URL ?? 'https://opencode.ai/zen/go/v1/chat/completions';

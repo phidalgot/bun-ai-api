@@ -1,6 +1,6 @@
 import Cerebras from '@cerebras/cerebras_cloud_sdk';
 import type { AIService, ChatMessage } from '../types';
-import { systemPrompt } from './groq';
+import { systemPrompt } from './prommpt';
 
 const cerebras = new Cerebras(
   {
