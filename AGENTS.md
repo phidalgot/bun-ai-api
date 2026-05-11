@@ -30,8 +30,10 @@ bun run build    # builds to dist/ (for Vercel)
 - `services/opencode.ts` — OpenCode Go API (active)
 - `services/groq.ts` — Groq SDK (disabled)
 - `services/cerebras.ts` — Cerebras SDK (disabled)
+- `services/prommpt.ts` — `systemPrompt` (role: classification agent for Venezuela customs)
+- `services/arancel.ts` — loads `docs/2-CONSOLIDADO Decreto_4944+8VAREFORMA.xlsx` (17,595 entries, cached in memory). `searchArancel(query, limit)` and `formatArancelForPrompt(entries)` are used in `index.ts` to inject relevant tariff data as context on every `/chat` request.
 
-All append the same `systemPrompt` (defined in `services/groq.ts`) to every request.
+All services prepend `arancelContext` (search results from the Excel) to the `systemPrompt` before sending to the AI.
 
 ## Environment variables
 
